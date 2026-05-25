@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="card">
+    <div class="logo">👤</div>
+    <h2>Welcome</h2>
+    <p class="subtitle">Login or create an account to continue</p>
+
+    <div class="form-group">
+      <label>Full Name (For Registering)</label>
+      <input [(ngModel)]="name" placeholder="Enter your name" class="input" />
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input [(ngModel)]="email" placeholder="Enter your email" class="input" />
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input [(ngModel)]="password" type="password" placeholder="Enter your password" class="input" />
+    </div>
+
+    <div class="form-group">
+      <label>Account Type</label>
+      <select [(ngModel)]="role" class="input">
+        <option value="user">Standard User</option>
+        <option value="admin">Administrator</option>
+      </select>
+    </div>
+
+    <div class="buttons">
+      <button (click)="login()" class="btn btn-primary">🔐 Login</button>
+      <button (click)="register()" class="btn btn-secondary">✨ Register</button>
+    </div>
+
+    <p class="message" *ngIf="message">{{ message }}</p>
+  </div>
+</div>

@@ -1,0 +1,120 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #e0f0ff, #b0d4f1, #4a90c4);
+}
+
+.card {
+  background: white;
+  padding: 48px 40px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 51, 102, 0.15);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  border-top: 5px solid #003366;
+}
+
+.logo {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+h2 {
+  color: #003366;
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: #6699bb;
+  font-size: 13px;
+  margin-bottom: 28px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #003366;
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #b0d4f1;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  color: #333;
+  background-color: #f4f9ff;
+}
+
+.input:focus {
+  border-color: #003366;
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn {
+  flex: 1;
+  padding: 11px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #003366;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #002244;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+}
+
+.btn-secondary {
+  background-color: #b0d4f1;
+  color: #003366;
+}
+
+.btn-secondary:hover {
+  background-color: #90c0e8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 51, 102, 0.15);
+}
+
+.message {
+  margin-top: 18px;
+  color: #cc3333;
+  font-size: 13px;
+  background: #fff0f0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ffcccc;
+}

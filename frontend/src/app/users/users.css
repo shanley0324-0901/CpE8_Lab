@@ -1,0 +1,268 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0f0ff, #b0d4f1, #4a90c4);
+  padding: 32px;
+  font-family: sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header h2 {
+  color: #003366;
+  font-size: 26px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 51, 102, 0.1);
+  border-top: 4px solid #003366;
+}
+
+.card h3 {
+  color: #003366;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid #b0d4f1;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  background-color: #f4f9ff;
+  color: #333;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  border-color: #003366;
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+thead {
+  background-color: #003366;
+  color: white;
+}
+
+thead th {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+tbody tr {
+  border-bottom: 1px solid #e0f0ff;
+  transition: background 0.2s;
+}
+
+tbody tr:hover {
+  background-color: #f4f9ff;
+}
+
+tbody td {
+  padding: 12px 16px;
+  color: #333;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-active {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.badge-disabled {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background-color: #003366;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #002244;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #b0d4f1;
+  color: #003366;
+}
+
+.btn-secondary:hover {
+  background-color: #90c0e8;
+  transform: translateY(-1px);
+}
+
+.btn-edit {
+  background-color: #e0f0ff;
+  color: #003366;
+}
+
+.btn-edit:hover {
+  background-color: #b0d4f1;
+  transform: translateY(-1px);
+}
+
+.btn-disable {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.btn-disable:hover {
+  background-color: #fecaca;
+  transform: translateY(-1px);
+}
+
+.btn-enable {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.btn-enable:hover {
+  background-color: #a7f3d0;
+  transform: translateY(-1px);
+}
+
+.btn-logout {
+  background-color: #003366;
+  color: white;
+}
+
+.btn-logout:hover {
+  background-color: #002244;
+  transform: translateY(-1px);
+}
+
+.table-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0;
+  color: #003366;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.spinner-small {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #b0d4f1;
+  border-top-color: #003366;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 51, 102, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-overlay p {
+  color: white;
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #b0d4f1;
+  border-top-color: #003366;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 999;
+  animation: fadeIn 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.toast-success {
+  background-color: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.toast-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

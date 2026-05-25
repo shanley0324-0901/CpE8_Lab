@@ -1,0 +1,94 @@
+<div class="page">
+
+  @if (toast) {
+    <div [class]="toastType === 'error' ? 'toast toast-error' : 'toast toast-success'">
+      {{ toast }}
+    </div>
+  }
+
+  @if (loading) {
+    <div class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Processing request...</p>
+    </div>
+  }
+
+  <div class="header">
+    <div class="title-section">
+      @if (userRole === 'admin') {
+        <h2>👥 User Management</h2>
+        <span class="admin-badge">Administrator Mode</span>
+      } @else {
+        <h2>👤 My Profile</h2>
+        <span class="user-badge">Standard Access</span>
+      }
+    </div>
+    <button (click)="logout()" class="btn btn-logout">🚪 Logout</button>
+  </div>
+
+  @if (userRole === 'admin') {
+    <div class="card">
+      <h3>Add New Account</h3>
+      <div class="form-row">
+        <input [(ngModel)]="name" placeholder="Enter full name" class="input" (keyup.enter)="addUser()" />
+        <button (click)="addUser()" class="btn btn-primary" [disabled]="loading">➕ Add User</button>
+        <button (click)="getUsers()" class="btn btn-secondary" [disabled]="tableLoading">🔄 Refresh List</button>
+      </div>
+    </div>
+  }
+
+  <div class="card">
+    @if (userRole === 'admin') {
+      <h3>System Users</h3>
+      @if (tableLoading) {
+        <div class="table-loading">
+          <div class="spinner-small"></div>
+          <span>Fetching data from server...</span>
+        </div>
+      } @else {
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of users; track user.id) {
+            <tr>
+              <td><strong>#{{ user.id }}</strong></td>
+              <td>{{ user.name }}</td>
+              <td>
+                <span [class]="user.status === 'active' ? 'badge badge-active' : 'badge badge-disabled'">
+                  {{ user.status | uppercase }}
+                </span>
+              </td>
+              <td class="actions">
+                <button (click)="editUser(user)" class="btn btn-edit" title="Edit Name">✏️</button>
+                
+                @if (user.status === 'active') {
+                  <button (click)="disableUser(user.id)" class="btn btn-disable" title="Deactivate">🚫</button>
+                } @else {
+                  <button (click)="enableUser(user.id)" class="btn btn-enable" title="Activate">✅</button>
+                }
+              </td>
+            </tr>
+            } @empty {
+              <tr>
+                <td colspan="4" style="text-align: center; padding: 20px;">No users found in database.</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    } @else {
+      <div class="user-welcome">
+        <h3>Welcome back!</h3>
+        <p>Your account is currently <strong>Active</strong>.</p>
+        <p>Contact an administrator if you need to change your account details.</p>
+      </div>
+    }
+  </div>
+</div>
