@@ -28,12 +28,35 @@
 
   @if (userRole === 'admin') {
     <div class="card">
-      <h3>Add New Account</h3>
+
+      <h3>Account Management</h3>
+
       <div class="form-row">
-        <input [(ngModel)]="name" placeholder="Enter full name" class="input" (keyup.enter)="addUser()" />
-        <button (click)="addUser()" class="btn btn-primary" [disabled]="loading">➕ Add User</button>
-        <button (click)="getUsers()" class="btn btn-secondary" [disabled]="tableLoading">🔄 Refresh List</button>
+
+        <input
+          [(ngModel)]="searchTerm"
+          placeholder="🔍 Search account..."
+          class="input"
+        />
+
+        <button
+          (click)="openAddUserModal()"
+          class="btn btn-primary">
+
+          ➕ Add User
+
+        </button>
+
+        <button
+          (click)="getUsers()"
+          class="btn btn-secondary">
+
+          🔄 Refresh
+
+        </button>
+
       </div>
+
     </div>
   }
 
@@ -51,12 +74,13 @@
             <tr>
               <th>ID</th>
               <th>Name</th>
+              <th>Email</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            @for (user of users; track user.id) {
+            @for (user of filteredUsers; track user.id) {
             <tr>
               <td><strong>#{{ user.id }}</strong></td>
               <td>{{ user.name }}</td>
@@ -84,11 +108,140 @@
         </table>
       }
     } @else {
-      <div class="user-welcome">
-        <h3>Welcome back!</h3>
-        <p>Your account is currently <strong>Active</strong>.</p>
-        <p>Contact an administrator if you need to change your account details.</p>
+      <div class="user-profile">
+
+        <h3>👤 My Profile</h3>
+
+        <div class="profile-grid">
+
+          <div class="form-group">
+            <label>Full Name</label>
+            <input
+              [(ngModel)]="profile.name"
+              class="input"
+              placeholder="Enter your full name"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Email Address</label>
+            <input
+              [(ngModel)]="profile.email"
+              class="input"
+              placeholder="Enter your email"
+            />
+          </div>
+
+        </div>
+
+        <button
+          (click)="updateProfile()"
+          class="btn btn-primary">
+
+          💾 Save Changes
+
+        </button>
+
+        <hr class="divider">
+
+        <h3>🔒 Change Password</h3>
+
+        <div class="profile-grid">
+
+          <div class="form-group">
+            <label>New Password</label>
+            <input
+              type="password"
+              [(ngModel)]="profile.password"
+              class="input"
+              placeholder="Enter new password"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              [(ngModel)]="profile.confirmPassword"
+              class="input"
+              placeholder="Confirm password"
+            />
+          </div>
+
+        </div>
+
+        <button
+          (click)="changePassword()"
+          class="btn btn-secondary">
+
+          🔑 Update Password
+
+        </button>
+
       </div>
     }
   </div>
+
 </div>
+
+  @if (showAddUserModal) {
+
+<div class="modal-overlay">
+
+  <div class="modal">
+
+    <h3>Create New User</h3>
+
+    <input
+      [(ngModel)]="newUser.name"
+      placeholder="Full Name"
+      class="input"
+    />
+
+    <input
+      [(ngModel)]="newUser.email"
+      placeholder="Email"
+      class="input"
+    />
+
+    <input
+      [(ngModel)]="newUser.password"
+      type="password"
+      placeholder="Password"
+      class="input"
+    />
+
+    <select
+      [(ngModel)]="newUser.role"
+      class="input">
+
+      <option value="user">Standard User</option>
+      <option value="admin">Administrator</option>
+
+    </select>
+
+    <div class="actions">
+
+      <button
+        (click)="closeAddUserModal()"
+        class="btn btn-secondary">
+
+        Cancel
+
+      </button>
+
+      <button
+        (click)="addUser()"
+        class="btn btn-primary">
+
+        Create User
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+}

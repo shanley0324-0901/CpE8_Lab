@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const env = require("../config/db.config");
 
 // This verifies if the user is logged in
 exports.protect = (req, res, next) => {
@@ -8,10 +7,13 @@ exports.protect = (req, res, next) => {
 
   if (!token) return res.status(401).json({ message: "No token provided" });
 
-  jwt.verify(token, env.JWT_SECRET, (err, decoded) => {
+  // IMPORTANT: This must match the key used in your login controller
+  const secretKey = "fullstack_secret_key"; 
+
+  jwt.verify(token, secretKey, (err, decoded) => {
     if (err) return res.status(403).json({ message: "Invalid or expired token" });
     
-    // This saves the user's ID and ROLE into the request for the next function
+    // Decoded contains { id: user.id, role: user.role }
     req.user = decoded; 
     next();
   });
@@ -20,7 +22,8 @@ exports.protect = (req, res, next) => {
 // Lab Requirement: Role-based access (e.g., restrictTo('admin'))
 exports.restrictTo = (role) => {
   return (req, res, next) => {
-    if (req.user.role !== role) {
+    // Safety check: ensure req.user was set by 'protect'
+    if (!req.user || req.user.role !== role) {
       return res.status(403).json({ message: "Access forbidden: Admins only" });
     }
     next();

@@ -24,7 +24,12 @@ export class Login {
     console.log("Login button clicked for:", this.email);
     
     // We create the object to send to the backend
-    const credentials = { email: this.email, password: this.password };
+    const credentials = {
+      email: this.email,
+      password: this  .password,
+      role: this.role
+    };
+    console.log("Sending:", credentials);
 
     this.authService.login(credentials).subscribe({
       next: (res: any) => {
@@ -34,7 +39,10 @@ export class Login {
         // Save the data to local storage so the guards can see it
         localStorage.setItem('token', res.token);
         localStorage.setItem('role', res.role);
-
+        localStorage.setItem('id', res.id);
+        localStorage.setItem('name', res.name);
+        localStorage.setItem('email', res.email);
+        
         // Redirect based on role
         if (res.role === 'admin') {
           this.router.navigate(['/users']);

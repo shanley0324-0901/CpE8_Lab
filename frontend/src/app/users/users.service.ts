@@ -15,13 +15,12 @@ export class UsersService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  addUser(name: string) {
-  // Remove "/add-user". Just use the base URL.
-  return this.http.post(`${this.apiUrl}`, { name }); 
+  addUser(userData: any) {
+    return this.http.post(`${this.apiUrl}`, userData);
   }
 
-  updateUser(id: number, name: string) {
-    return this.http.put(`${this.apiUrl}/${id}`, { name });
+  updateUser(id: number, userData: any) {
+    return this.http.patch(`${this.apiUrl}/${id}`, userData);
   }
 
   disableUser(id: number) {

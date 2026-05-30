@@ -3,18 +3,23 @@ const router = express.Router();
 const userCtrl = require('../controllers/userController');
 const { protect, restrictTo } = require('../middlewares/auth');
 
-// Public Routes
+// --- PUBLIC ROUTES ---
 router.post('/register', userCtrl.register);
 router.post('/login', userCtrl.login);
 
-// Protected Routes (Anyone with a token can access)
-router.get('/profile', protect, (req, res) => {
-    res.json({ message: "This is your private profile", user: req.user });
-});
+// --- USER & ADMIN ROUTES (Self-Management) ---
+router.patch('/update-me/:id', protect, userCtrl.updateUser);
 
-// Admin Only Route (Lab Requirement)
-router.get('/admin-dashboard', protect, restrictTo('admin'), (req, res) => {
-    res.json({ message: "Welcome to the Secret Admin Panel!" });
-});
+// --- ADMIN ONLY ROUTES (User Management) ---
+// 1. Fetch all users
+router.get('/all-users', protect, restrictTo('admin'), userCtrl.getUsers);
+
+// 2. Admin Create User (Assign Roles)
+router.post('/admin/add-user', protect, restrictTo('admin'), userCtrl.addUser);
+
+// 3. Deactivate/Activate Accounts (Soft Delete Requirement)
+// FIX: Adding these specific routes prevents the 404 errors in Angular
+router.put('/enable/:id', protect, restrictTo('admin'), userCtrl.enableUser);
+router.put('/disable/:id', protect, restrictTo('admin'), userCtrl.disableUser);
 
 module.exports = router;

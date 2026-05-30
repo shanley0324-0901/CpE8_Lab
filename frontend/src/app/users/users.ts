@@ -43,7 +43,9 @@ export class Users implements OnInit {
     if (this.userRole === 'admin') {
       this.getUsers();
     } else {
-      console.log("Standard user detected. Admin data restricted.");
+      this.profile.id = Number(localStorage.getItem('id'));
+      this.profile.name = localStorage.getItem('name') || '';
+      this.profile.email = localStorage.getItem('email') || '';
     }
   }
 
@@ -77,31 +79,43 @@ export class Users implements OnInit {
 
   // --- CRUD Operations ---
   addUser() {
-  if (!this.name.trim()) {
-    this.showToast('Please enter a name!', 'error');
+
+  if (
+    !this.newUser.name.trim() ||
+    !this.newUser.email.trim() ||
+    !this.newUser.password.trim()
+  ) {
+    this.showToast('Please fill all fields!', 'error');
     return;
   }
 
   this.loading = true;
-  const addedName = this.name;
-  this.name = ''; // Clear input early for better UX
 
-  this.userService.addUser(addedName).subscribe({
-    next: (response) => {
-      console.log("Success Response:", response);
+  this.userService.addUser(this.newUser).subscribe({
+    next: () => {
+
       this.loading = false;
-      this.showToast(`"${addedName}" added successfully!`);
-      
-      // Refresh the list to show the new user
+
+      this.showToast('User created successfully!');
+
+      this.showAddUserModal = false;
+
+      this.newUser = {
+        name: '',
+        email: '',
+        password: '',
+        role: 'user'
+      };
+
       this.getUsers();
     },
     error: (err) => {
-      console.error("Full Error Object:", err);
+
+      console.error(err);
+
       this.loading = false;
-      
-      // If the user actually appeared in the background, don't show the error toast
-      // This is a "silent check" to prevent annoying fake error messages
-      this.showToast(`Error adding user. Check console.`, 'error');
+
+      this.showToast('Failed to create user.', 'error');
     }
   });
 }
@@ -110,13 +124,14 @@ export class Users implements OnInit {
     const newName = prompt('Enter new name:', user.name);
     if (newName && newName.trim()) {
       this.loading = true;
-      this.userService.updateUser(user.id, newName).subscribe({
-        next: () => {
+      this.userService.updateUser(user.id, { name: newName}).subscribe({
+      next: () => {
           this.loading = false;
           this.showToast(`User updated successfully!`);
           this.getUsers();
         },
-        error: () => {
+        error: (err) => {
+          console.error(err);
           this.loading = false;
           this.showToast('Failed to update user.', 'error');
         }
@@ -158,4 +173,93 @@ export class Users implements OnInit {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  updateProfile() {
+
+  this.userService.updateUser(
+    this.profile.id,
+    {
+      name: this.profile.name,
+      email: this.profile.email
+    }
+  ).subscribe({
+    next: () => {
+
+      localStorage.setItem('name', this.profile.name);
+      localStorage.setItem('email', this.profile.email);
+
+      this.showToast('Profile updated successfully!');
+    },
+    error: () => {
+      this.showToast('Failed to update profile.', 'error');
+    }
+    });
+
+  }
+
+  changePassword() {
+
+  if (!this.profile.password.trim()) {
+    this.showToast('Please enter a new password.', 'error');
+    return;
+  }
+
+  if (this.profile.password !== this.profile.confirmPassword) {
+    this.showToast('Passwords do not match.', 'error');
+    return;
+  }
+
+  this.userService.updateUser(
+    this.profile.id,
+    {
+      password: this.profile.password
+    }
+  ).subscribe({
+    next: () => {
+
+      this.profile.password = '';
+      this.profile.confirmPassword = '';
+
+      this.showToast('Password updated successfully!');
+    },
+    error: () => {
+      this.showToast('Failed to update password.', 'error');
+    }
+  });
+
+}
+
+  showAddUserModal = false;
+
+  newUser = {
+    name: '',
+    email: '',
+    password: '',
+    role: 'user'
+  };
+
+  searchTerm = '';
+
+  openAddUserModal() {
+    this.showAddUserModal = true;
+  }
+
+  closeAddUserModal() {
+    this.showAddUserModal = false;
+  }
+
+  get filteredUsers() {
+    return this.users.filter(user =>
+      user.name?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
+  profile = {
+  id: 0,
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+};
 }
