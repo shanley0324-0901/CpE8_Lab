@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { JWT_SECRET } = require("../config/db.config");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -61,11 +62,9 @@ exports.login = (req, res) => {
                 return res.status(401).json({ message: "Invalid credentials" });
             }
 
-            // rest of code...
-
             const token = jwt.sign(
                 { id: user.id, role: user.role }, 
-                "fullstack_secret_key", 
+                JWT_SECRET, 
                 { expiresIn: '1h' }
             );
 

@@ -84,6 +84,7 @@
             <tr>
               <td><strong>#{{ user.id }}</strong></td>
               <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
               <td>
                 <span [class]="user.status === 'active' ? 'badge badge-active' : 'badge badge-disabled'">
                   {{ user.status | uppercase }}

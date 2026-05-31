@@ -15,7 +15,6 @@ export class Login {
   email = ''; 
   password = '';
   name = ''; 
-  role = 'user';
   message = '';
 
   constructor(private authService: AuthService, private router: Router) {}
@@ -26,8 +25,7 @@ export class Login {
     // We create the object to send to the backend
     const credentials = {
       email: this.email,
-      password: this  .password,
-      role: this.role
+      password: this.password,
     };
     console.log("Sending:", credentials);
 
@@ -59,7 +57,7 @@ export class Login {
 
   register() {
     console.log("Registering:", this.name);
-    const userData = { name: this.name, email: this.email, password: this.password, role: this.role };
+    const userData = { name: this.name, email: this.email, password: this.password };
 
     this.authService.register(userData).subscribe({
       next: (res: any) => {

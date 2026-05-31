@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("../config/db.config");
 
 // This verifies if the user is logged in
 exports.protect = (req, res, next) => {
@@ -8,7 +9,8 @@ exports.protect = (req, res, next) => {
   if (!token) return res.status(401).json({ message: "No token provided" });
 
   // IMPORTANT: This must match the key used in your login controller
-  const secretKey = "fullstack_secret_key"; 
+  const { JWT_SECRET } = require("../config/db.config");
+  const secretKey = JWT_SECRET;
 
   jwt.verify(token, secretKey, (err, decoded) => {
     if (err) return res.status(403).json({ message: "Invalid or expired token" });
